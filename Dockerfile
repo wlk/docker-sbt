@@ -6,6 +6,8 @@ MAINTAINER Lukas Stefaniak <lustefaniak@gmail.com>
 
 ENV SBT_VERSION 0.13.13
 ENV SCALA_VERSION 2.11.8
+ENV SCALA_VERSION_2_11 2.11.8
+ENV SCALA_VERSION_2_10 2.10.6
 ENV SBT_HOME /usr/local/sbt
 ENV PATH ${PATH}:${SBT_HOME}/bin
 ENV JAVA_OPTS -Xmx2g
@@ -14,7 +16,7 @@ ENV JAVA_OPTS -Xmx2g
 RUN curl -sL "http://dl.bintray.com/sbt/native-packages/sbt/$SBT_VERSION/sbt-$SBT_VERSION.tgz" | gunzip | tar -x -C /tmp/ && rm -r /usr/local && mv /tmp/sbt-launcher-packaging-$SBT_VERSION /usr/local && \
     echo -ne "- with sbt $SBT_VERSION\n" >> /root/.built
 
-RUN mkdir -p src/main/scala && echo "object A" > src/main/scala/A.scala && sbt 'set scalaVersion:="'${SCALA_VERSION}'"' compile && rm -r -f src target project
+RUN mkdir -p src/main/scala && echo "object A" > src/main/scala/A.scala && sbt 'set scalaVersion:="'${SCALA_VERSION_2_10}'"' compile && sbt 'set scalaVersion:="'${SCALA_VERSION_2_11}'"' compile && rm -r -f src target project
 
 # Install other goodies
 RUN apk update && apk add git openssh
